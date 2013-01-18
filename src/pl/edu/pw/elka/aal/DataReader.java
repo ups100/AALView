@@ -35,12 +35,16 @@ public class DataReader {
 					if(lastSize != 0) {
 						long buffer = 0;
 						for(int i : tmp) {
-							buffer +=i;
+							//buffer +=i;
+							if(i > buffer) {
+								buffer = i;
+							}
 						}
 						
-						int endValue = (int)(buffer/tmp.size());
+						//int endValue = (int)(buffer/tmp.size());
 						data.add(lastSize);
-						value.add(endValue);
+						//value.add(endValue);
+						value.add((int)buffer);
 						tmp.clear();
 					}
 					

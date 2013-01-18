@@ -38,11 +38,12 @@ public class PlotComponent {
 		@SuppressWarnings("unchecked")
 		DataTable dataTable = new DataTable(Integer.class, Double.class);
 		
-		double medianValueTeoretic = midleSize*midleSize*Math.log(midleSize)*Math.log(midleSize)*Math.log(midleSize);
+		double medianValueTeoretic = midleSize*midleSize*Math.log(midleSize)*Math.log(midleSize);//*Math.log(midleSize);
 		for(int i = 0; i < data.size(); ++i) {
-			double valueTeoretic = data.get(i)*data.get(i)*Math.log(data.get(i))*Math.log(data.get(i))*Math.log(data.get(i));
+			double valueTeoretic = data.get(i)*data.get(i)*Math.log(data.get(i))*Math.log(data.get(i));//*Math.log(data.get(i));
 			
 			dataTable.add( data.get(i), (values.get(i)*medianValueTeoretic)/(valueTeoretic*midle));
+			System.out.println((values.get(i)*medianValueTeoretic)/(valueTeoretic*midle));
 		}
 		
 		
@@ -56,8 +57,8 @@ public class PlotComponent {
 		
 		Collections.sort(values);
 		
-		DataSource dataSerie = new DataSeries("Execution time [ms]", dataTable);
-		DataSource dataSerie2 = new DataSeries("x^2", dataTable2);
+		DataSource dataSerie = new DataSeries("Asymptotic/mediane", dataTable);
+		DataSource dataSerie2 = new DataSeries("1", dataTable2);
 		
 		Color color = new Color(0.0f, 0.3f, 1.0f);
 		Color color2 = new Color(1.0f, 0.3f, 0.0f);
@@ -76,7 +77,7 @@ public class PlotComponent {
 		plot.setPointRenderer(dataSerie, null);
 		plot.setPointRenderer(dataSerie2, null);
 		
-		plot.setSetting(XYPlot.TITLE, "Computing time/size of problem");
+		plot.setSetting(XYPlot.TITLE, "Asymptotic/mediane");
 		
 		plot.setSetting(XYPlot.TITLE_FONT, new Font(Font.SANS_SERIF, Font.BOLD, 24));
 		
@@ -86,15 +87,15 @@ public class PlotComponent {
 		
 		//AxisRenderer rendererY = new LogarithmicRenderer2D();
 		//plot.setAxisRenderer(XYPlot.AXIS_Y, rendererY);
-		plot.getAxisRenderer(XYPlot.AXIS_Y).setSettingDefault(AxisRenderer.LABEL, "Time of computing [ ms ]");
+		plot.getAxisRenderer(XYPlot.AXIS_Y).setSettingDefault(AxisRenderer.LABEL, "Value");
 		//plot.getAxisRenderer(XYPlot.AXIS_Y).setSetting(AxisRenderer.TICK_LABELS_FORMAT, new DecimalFormat("0 ms"));
-		plot.getAxisRenderer(XYPlot.AXIS_Y).setSetting(AxisRenderer.INTERSECTION, 0.0);
-		plot.getAxis(XYPlot.AXIS_Y).setRange(0.0, 1.5);
+		plot.getAxisRenderer(XYPlot.AXIS_Y).setSetting(AxisRenderer.INTERSECTION, data.firstElement());
+		plot.getAxis(XYPlot.AXIS_Y).setRange(-0.15, 1.5);
 		plot.getAxisRenderer(XYPlot.AXIS_Y).setSetting(AxisRenderer.TICKS, true);
 		plot.getAxisRenderer(XYPlot.AXIS_Y).setSetting(AxisRenderer.TICK_LABELS, true);
 		
 		plot.getAxisRenderer(XYPlot.AXIS_X).setSettingDefault(AxisRenderer.LABEL, "Number of cities");
-		plot.getAxis(XYPlot.AXIS_X).setRange(0- 2, data.lastElement() +2);
+		plot.getAxis(XYPlot.AXIS_X).setRange(data.firstElement() - 100, data.lastElement() +100);
 		plot.getAxisRenderer(XYPlot.AXIS_X).setSetting(AxisRenderer.TICK_LABELS, true);
 		plot.getAxisRenderer(XYPlot.AXIS_X).setSetting(AxisRenderer.TICKS, true);
 		plot.getAxisRenderer(XYPlot.AXIS_X).setSetting(AxisRenderer.INTERSECTION, 0);
